@@ -4,7 +4,9 @@
   "license": "MIT",
   "homepage": "",
   "require": {
-    "php": ">=7.0.0"
+    "php": ">=7.0.0",
+    "psr/log": "dev-master",
+    "php-console/php-console": "dev-master"
   },
   "autoload": {
     "psr-4": {
