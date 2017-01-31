@@ -1,0 +1,15 @@
+{
+  "name": "skvn/debug",
+  "description": "",
+  "license": "MIT",
+  "homepage": "",
+  "require": {
+    "php": ">=7.0.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Skvn\\Debug\\": ""
+    }
+  },
+  "minimum-stability": "dev"
+}
