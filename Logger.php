@@ -18,6 +18,7 @@ class Logger implements LoggerInterface
     function __construct($config)
     {
         $this->config = $config;
+        $this->config['path'] = \App :: getPath($this->config['path']);
     }
 
     function log($level, $message, array $context = array())
