@@ -4,10 +4,13 @@ namespace Skvn\Debug;
 
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
+use Skvn\Base\Traits\AppHolder;
 
 
 class Logger implements LoggerInterface
 {
+    use AppHolder;
+
     protected $config;
     protected $consoleConfig;
     protected $console;
@@ -18,7 +21,6 @@ class Logger implements LoggerInterface
     function __construct($config)
     {
         $this->config = $config;
-        $this->config['path'] = \App :: getPath($this->config['path']);
     }
 
     function log($level, $message, array $context = array())
@@ -32,7 +34,7 @@ class Logger implements LoggerInterface
             unset($context['target']);
         }
         $message = $this->formatMessage($level, $message, $context);
-        $target = $this->config['path'] . DIRECTORY_SEPARATOR . $logfile;
+        $target = $this->app->getPath($this->config['path']) . DIRECTORY_SEPARATOR . $logfile;
         if (!file_exists(dirname($target))) {
             if (mkdir(dirname($target), 0777, true) === false) {
                 throw new \Exception('Unable to create dir: ' . dirname($target));
@@ -123,7 +125,7 @@ class Logger implements LoggerInterface
     protected function getConsole()
     {
         if (is_null($this->console)) {
-            \PhpConsole\Connector::setPostponeStorage(new \PhpConsole\Storage\File($this->config['path'] . '/skvn-php-console.dat', true));
+            \PhpConsole\Connector::setPostponeStorage(new \PhpConsole\Storage\File($this->app->getPath($this->config['path']) . '/skvn-php-console.dat', true));
             $connector = \PhpConsole\Connector :: getInstance();
             if (!empty($this->consoleConfig['password']))
             {

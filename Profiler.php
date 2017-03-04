@@ -2,9 +2,12 @@
 
 namespace Skvn\Debug;
 
+use Skvn\Base\Traits\AppHolder;
+
 
 class Profiler
 {
+    use AppHolder;
 
 
     const TYPE_COMMON = 0;
