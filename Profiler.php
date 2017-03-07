@@ -13,7 +13,8 @@ class Profiler
     const TYPE_COMMON = 0;
     const TYPE_PINBA = 1;
 
-    protected $tags = [];
+    protected $params = [];
+    protected $logTags = [];
     protected $trace = [];
 
 
@@ -55,6 +56,11 @@ class Profiler
     {
         $this->trace('Finished');
         return $this->trace;
+    }
+
+    function addParam($name, $value)
+    {
+        $this->params[$name] = $value;
     }
 
     protected function addTag($name, $type)
