@@ -18,7 +18,7 @@ class Profiler
     protected $trace = [];
 
 
-    function start($tag, $type = self :: TYPE_COMMON)
+    function start($tag, $type = self :: TYPE_COMMON, $pinba_tags = [])
     {
         $this->addTag($tag, $type);
         $this->tags[$tag]['start'] = microtime(true);
@@ -27,7 +27,7 @@ class Profiler
         $this->tags[$tag]['count']++;
         if ($type == self :: TYPE_PINBA) {
             if (extension_loaded('pinba')) {
-                pinba_timer_start($tag);
+                pinba_timer_start($pinba_tags);
             }
         }
     }
