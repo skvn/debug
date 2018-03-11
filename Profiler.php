@@ -17,6 +17,7 @@ class Profiler
     protected $logTags = [];
     protected $trace = [];
     protected $pinba = [];
+    protected $tags = [];
 
 
     function start($tag, $type = self :: TYPE_COMMON, $pinba_tags = [])
