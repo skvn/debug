@@ -5,10 +5,11 @@ namespace Skvn\Debug;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
 use Skvn\Base\Traits\AppHolder;
-
+use Skvn\Base\Traits\ConstructorConfig;
 
 class Logger implements LoggerInterface
 {
+    use ConstructorConfig;
     use AppHolder;
 
     protected $config;
@@ -17,16 +18,13 @@ class Logger implements LoggerInterface
     protected $formatter;
 
 
-
-    function __construct($config)
+    function log($level, $message, array $context = [])
     {
-        $this->config = $config;
-    }
-
-    function log($level, $message, array $context = array())
-    {
-        $logfile = "common.log";
+        $logfile = 'common.log';
         if (!empty($context['target'])) {
+            if (in_array($context['target'], $this->config['disabled_targets'] ?? [])) {
+                return;
+            }
             if ($context['target'] == 'console') {
                 return $this->console($message, $context['tags'] ?? "");
             }
@@ -42,8 +40,6 @@ class Logger implements LoggerInterface
         }
         error_log($message . PHP_EOL, 3, $target);
         return;
-
-
     }
 
     function setFormatter($formatter)
@@ -65,48 +61,47 @@ class Logger implements LoggerInterface
 
     function console($var, $tags = "")
     {
-        if ($this->hasConsole())
-        {
+        if ($this->hasConsole()) {
             $this->getConsole()->debug($var, $tags);
         }
     }
 
-    public function emergency($message, array $context = array())
+    public function emergency($message, array $context = [])
     {
         $this->log(LogLevel :: EMERGENCY, $message, $context);
     }
 
-    public function alert($message, array $context = array())
+    public function alert($message, array $context = [])
     {
         $this->log(LogLevel :: ALERT, $message, $context);
     }
 
-    public function critical($message, array $context = array())
+    public function critical($message, array $context = [])
     {
         $this->log(LogLevel :: CRITICAL, $message, $context);
     }
 
-    public function error($message, array $context = array())
+    public function error($message, array $context = [])
     {
         $this->log(LogLevel :: ERROR, $message, $context);
     }
 
-    public function warning($message, array $context = array())
+    public function warning($message, array $context = [])
     {
         $this->log(LogLevel :: WARNING, $message, $context);
     }
 
-    public function notice($message, array $context = array())
+    public function notice($message, array $context = [])
     {
         $this->log(LogLevel :: NOTICE, $message, $context);
     }
 
-    public function info($message, array $context = array())
+    public function info($message, array $context = [])
     {
         $this->log(LogLevel :: INFO, $message, $context);
     }
 
-    public function debug($message, array $context = array())
+    public function debug($message, array $context = [])
     {
         $this->log(LogLevel :: DEBUG, $message, $context);
     }
