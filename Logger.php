@@ -18,7 +18,7 @@ class Logger implements LoggerInterface
     protected $formatter;
 
 
-    function log($level, $message, array $context = [])
+    function log($level, string|\Stringable $message, array $context = []): void
     {
         $logfile = 'common.log';
         if (!empty($context['target'])) {
@@ -26,7 +26,7 @@ class Logger implements LoggerInterface
                 return;
             }
             if ($context['target'] == 'console') {
-                return $this->console($message, $context['tags'] ?? "");
+                $this->console($message, $context['tags'] ?? "");
             }
             $logfile = $context['target'] . '.log';
             unset($context['target']);
@@ -66,44 +66,44 @@ class Logger implements LoggerInterface
         }
     }
 
-    public function emergency($message, array $context = [])
+    public function emergency(\Stringable|string $message, array $context = []):void
     {
-        $this->log(LogLevel :: EMERGENCY, $message, $context);
+        $this->log(LogLevel::EMERGENCY, $message, $context);
     }
 
-    public function alert($message, array $context = [])
+    public function alert(string|\Stringable $message, array $context = []):void
     {
-        $this->log(LogLevel :: ALERT, $message, $context);
+        $this->log(LogLevel::ALERT, $message, $context);
     }
 
-    public function critical($message, array $context = [])
+    public function critical(string|\Stringable $message, array $context = []):void
     {
-        $this->log(LogLevel :: CRITICAL, $message, $context);
+        $this->log(LogLevel::CRITICAL, $message, $context);
     }
 
-    public function error($message, array $context = [])
+    public function error(string|\Stringable $message, array $context = []):void
     {
-        $this->log(LogLevel :: ERROR, $message, $context);
+        $this->log(LogLevel::ERROR, $message, $context);
     }
 
-    public function warning($message, array $context = [])
+    public function warning(string|\Stringable $message, array $context = []):void
     {
-        $this->log(LogLevel :: WARNING, $message, $context);
+        $this->log(LogLevel::WARNING, $message, $context);
     }
 
-    public function notice($message, array $context = [])
+    public function notice(string|\Stringable $message, array $context = []):void
     {
-        $this->log(LogLevel :: NOTICE, $message, $context);
+        $this->log(LogLevel::NOTICE, $message, $context);
     }
 
-    public function info($message, array $context = [])
+    public function info(string|\Stringable $message, array $context = []):void
     {
-        $this->log(LogLevel :: INFO, $message, $context);
+        $this->log(LogLevel::INFO, $message, $context);
     }
 
-    public function debug($message, array $context = [])
+    public function debug(string|\Stringable $message, array $context = []):void
     {
-        $this->log(LogLevel :: DEBUG, $message, $context);
+        $this->log(LogLevel::DEBUG, $message, $context);
     }
 
     protected function hasConsole()
